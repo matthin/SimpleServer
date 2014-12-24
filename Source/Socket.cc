@@ -10,6 +10,11 @@ ss::Socket::Socket()
 	set_timeout(5);
 }
 
+ss::Socket::~Socket()
+{
+	disconnect();
+}
+
 void ss::Socket::send(const std::string& data, unsigned int size)
 {
 	::send(handle, data.data(), size, 0);

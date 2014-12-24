@@ -11,6 +11,7 @@ namespace ss
 	{
 	public:
 		Socket();
+		~Socket();
 
 		void send(const std::string& data, unsigned int size);
 		void receive(void* data, int size, int* received);
