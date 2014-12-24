@@ -2,13 +2,14 @@
 
 #include "Socket.hh"
 #include "Client.hh"
+#include "Config.hh"
 #include <memory>
 #include <thread>
 
-#include <iostream>
-
 ss::Server::Server(const unsigned short port) : listener()
 {
+	Config config;
+
 	listener.listen(port);
 
 	while (true) {
