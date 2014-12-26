@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "json/json.hh"
 
 namespace ss
 {
@@ -11,5 +11,6 @@ namespace ss
 
 	private:
 		void load_files();
+		void parse_file(const Json::Value& root);
 	};
 }

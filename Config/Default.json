@@ -1,5 +1,6 @@
 {
-	"Default": [ {
-		"Directory": "./"
+	"Config": [ {
+		"Directory": "./",
+		"Path": "Relative"
 	}]
 }
