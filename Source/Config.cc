@@ -2,7 +2,8 @@
 
 #include <fstream>
 
-#include <iostream>
+// Initialize static variables
+std::unordered_map<std::string, std::string> ss::Config::sites;
 
 ss::Config::Config()
 {
@@ -32,11 +33,8 @@ void ss::Config::load_files()
 
 void ss::Config::parse_file(const Json::Value& root)
 {
-	for (const auto& block : root["Config"])
+	for (const auto& block : root)
 	{
-		for (const auto& param : block)
-		{
-			std::cout << param.asString() << std::endl;
-		}
+		sites[block["Host"].asString()] = block["Location"]["Directory"].asString();
 	}
 }

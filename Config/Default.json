@@ -1,6 +1,13 @@
-{
-	"Config": [ {
+[ {
+	"Host": "127.0.0.1",
+	"Location": {
 		"Directory": "./",
-		"Path": "Relative"
-	}]
-}
+		"Type": "Relative"
+	}
+}, {
+	"Host": "localhost",
+	"Location": {
+		"Directory": "../",
+		"Type": "Relative"
+	}
+}]

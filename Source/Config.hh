@@ -1,6 +1,8 @@
 #pragma once
 
 #include "json/json.hh"
+#include <unordered_map>
+#include <string>
 
 namespace ss
 {
@@ -8,6 +10,9 @@ namespace ss
 	{
 	public:
 		Config();
+
+		// Just matching host to location so far
+		static std::unordered_map<std::string, std::string> sites;
 
 	private:
 		void load_files();

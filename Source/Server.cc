@@ -12,7 +12,7 @@ ss::Server::Server(const unsigned short port) : listener()
 
 	listener.listen(port);
 
-	/*while (true) {
+	while (true) {
 		Socket* socket = new Socket;
 		
 		if (listener.accept(socket))
@@ -22,5 +22,5 @@ ss::Server::Server(const unsigned short port) : listener()
 				Client client(socket);
 			});
 		}
-	}*/
+	}
 }
