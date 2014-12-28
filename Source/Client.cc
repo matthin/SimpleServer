@@ -20,11 +20,11 @@ ss::Client::Client(Socket* socket) : socket(socket)
 		const auto port_pos = host.find_last_of(":");
 		if (port_pos == std::string::npos)
 		{
-			methods::Get(Config::sites[host] + request.headers["location"], &response);
+			methods::Get(Config::get_sites()[host] + request.headers["location"], &response);
 		}
 		else
 		{
-			methods::Get(Config::sites[host.substr(0, port_pos)] + request.headers["location"], &response);
+			methods::Get(Config::get_sites()[host.substr(0, port_pos)] + request.headers["location"], &response);
 		}
 	}
 
