@@ -1,10 +1,12 @@
 #include "Get.hh"
 
 #include <fstream>
+#include "Config.hh"
 
-ss::methods::Get::Get(const std::string& location, http::Response* response)
+ss::methods::Get::Get(const http::Request& request, http::Response* response) : request(request)
 {
-	auto file = read_file(location.substr(1));
+	create_correct_location();
+	auto file = read_file(correct_location);
 	if (file.empty())
 	{
 		response->headers["code"] = "404";
@@ -14,7 +16,7 @@ ss::methods::Get::Get(const std::string& location, http::Response* response)
 	}
 	else
 	{
-		response->headers["Content-Type"] = mime_type(location);
+		response->headers["Content-Type"] = mime_type(correct_location);
 		response->headers["code"] = "200";
 		response->headers["code_message"] = "OK";
 		response->headers["Content-Length:"] = file.size();
@@ -60,4 +62,19 @@ std::string ss::methods::Get::read_file(const std::string& location)
 	file.read(&contents[0], size);
 
 	return contents;
+}
+
+void ss::methods::Get::create_correct_location()
+{
+	const auto host = request.headers.at("Host");
+	// Check if Host header contains a port.
+	const auto port_pos = host.find_last_of(":");
+	if (port_pos == std::string::npos)
+	{
+		correct_location = (Config::get_sites()[host] + request.headers.at("location").substr(1));
+	}
+	else
+	{
+		correct_location = (Config::get_sites()[host.substr(0, port_pos)] + request.headers.at("location").substr(1));
+	}
 }

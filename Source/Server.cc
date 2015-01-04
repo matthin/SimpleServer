@@ -14,7 +14,7 @@ ss::Server::Server(const unsigned short port) : listener()
 
 	while (true) {
 		Socket* socket = new Socket;
-		
+
 		if (listener.accept(socket))
 		{
 			new std::thread([socket]()
