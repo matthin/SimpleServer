@@ -67,14 +67,26 @@ std::string ss::methods::Get::read_file(const std::string& location)
 void ss::methods::Get::create_correct_location()
 {
 	const auto host = request.headers.at("Host");
+
+	std::string req_location;
+	if (request.headers.at("location").back() == '/')
+	{
+		// Using Makefile just for testing purposes
+		req_location = request.headers.at("location").substr(1) + "Makefile";
+	}
+	else
+	{
+		req_location = request.headers.at("location").substr(1);
+	}
+
 	// Check if Host header contains a port.
 	const auto port_pos = host.find_last_of(":");
 	if (port_pos == std::string::npos)
 	{
-		correct_location = (Config::get_sites()[host] + request.headers.at("location").substr(1));
+		correct_location = (Config::get_sites()[host] + req_location);
 	}
 	else
 	{
-		correct_location = (Config::get_sites()[host.substr(0, port_pos)] + request.headers.at("location").substr(1));
+		correct_location = (Config::get_sites()[host.substr(0, port_pos)] + req_location);
 	}
 }
