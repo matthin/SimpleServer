@@ -19,3 +19,4 @@ target_link_libraries(
 )
 
 target_include_directories(${EXECUTABLE_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+SET(CMAKE_EXE_LINKER_FLAGS "-pthread")
