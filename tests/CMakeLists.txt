@@ -5,18 +5,13 @@ set(TEST_SOURCE
    ${CMAKE_CURRENT_SOURCE_DIR}/Socket.cc
 )
 
-set(EXECUTABLE_NAME SimpleServerTests)
-
-add_executable(${EXECUTABLE_NAME} ${TEST_SOURCE} ${TEST_HEADERS})
+add_executable(SimpleServerTests ${TEST_SOURCE} ${TEST_HEADERS})
 
 target_link_libraries(
-    ${LIBRARY_NAME}
+  SimpleServerTests
+  SimpleServer
 )
 
-target_link_libraries(
-	${EXECUTABLE_NAME}
-	${LIBRARY_NAME}
-)
-
-target_include_directories(${EXECUTABLE_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(SimpleServerTests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 SET(CMAKE_EXE_LINKER_FLAGS "-pthread")
+
