@@ -25,18 +25,12 @@ ss::http::Request ss::Client::get_request()
 {
 	std::string response;
 
+  char buffer[1024];
+	int received = sizeof(buffer);
 	// An endless wait may happen if the last response is the same size as buffer.
-	while (true)
-	{
-		char buffer[1024];
-		int received;
+  while (received == sizeof(buffer)) {
 		socket->receive(&buffer, sizeof(buffer), &received);
 		response.append(buffer, received);
-
-		if (received < sizeof(buffer))
-		{
-			break;
-		}
 	}
 
 	return http::Request(response);
