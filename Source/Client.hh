@@ -6,16 +6,14 @@
 
 #include <memory>
 
-namespace ss
-{
-	class Client
-	{
-	public:
-		Client(Socket* socket);
-		http::Request get_request();
-		void send_response(const http::Response& response);
+namespace ss {
+class Client {
+public:
+  Client(Socket *socket);
+  http::Request get_request();
+  void send_response(const http::Response &response);
 
-	private:
-		std::unique_ptr<Socket> socket;
-	};
+private:
+  std::unique_ptr<Socket> socket;
+};
 }

@@ -5,29 +5,27 @@
 
 #include <string>
 
-namespace ss
-{
-	class Socket
-	{
-	public:
-		Socket();
-		~Socket();
+namespace ss {
+class Socket {
+public:
+  Socket();
+  ~Socket();
 
-		void send(const std::string& data, unsigned int size);
-		void receive(void* data, int size, int* received);
+  void send(const std::string &data, unsigned int size);
+  void receive(void *data, int size, int *received);
 
-		bool connect(const std::string& host, const unsigned short port);
-		bool disconnect();
+  bool connect(const std::string &host, const unsigned short port);
+  bool disconnect();
 
-		void set_timeout(long seconds, long microseconds);
-		void set_timeout(long seconds);
+  void set_timeout(long seconds, long microseconds);
+  void set_timeout(long seconds);
 
-		std::string get_remote_address();
-		unsigned short get_local_port();
+  std::string get_remote_address();
+  unsigned short get_local_port();
 
-		int handle;
+  int handle;
 
-	protected:
-		sockaddr_in create_address(const std::string& host, unsigned short port);
-	};
+protected:
+  sockaddr_in create_address(const std::string &host, unsigned short port);
+};
 }

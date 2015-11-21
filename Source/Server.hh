@@ -8,15 +8,13 @@
 #include <memory>
 #include <mutex>
 
-namespace ss
-{
-	class Server
-	{
-	public:
-		Server(unsigned short port);
+namespace ss {
+class Server {
+public:
+  Server(unsigned short port);
 
-	private:
-		Socket socket;
-		Listener listener;
-	};
+private:
+  Socket socket;
+  Listener listener;
+};
 }
