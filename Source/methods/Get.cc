@@ -1,23 +1,27 @@
 #include "Get.hh"
 
 #include <fstream>
+#include <unordered_map>
 #include "Config.hh"
 
-ss::methods::Get::Get(const http::Request &request, http::Response *response)
+ss::methods::Get::Get(const rokunet::Http::Request &request,
+                      rokunet::Http::Response::Builder *responseBuilder)
     : request(request) {
+  std::unordered_map<std::string, std::string> responseHeaders;
+
   create_correct_location();
   auto file = read_file(correct_location);
   if (file.empty()) {
-    response->headers["code"] = "404";
-    response->headers["code_message"] = "Not Found";
-    response->headers["Content-Length:"] = 15;
-    response->message = "404 - Not Found";
+    responseBuilder->setCode(404);
+    responseBuilder->setCodeMessage("Not Found");
+    responseHeaders["Content-Length:"] = 15;
+    responseBuilder->setBody("404 - Not Found");
   } else {
-    response->headers["Content-Type"] = mime_type(correct_location);
-    response->headers["code"] = "200";
-    response->headers["code_message"] = "OK";
-    response->headers["Content-Length:"] = file.size();
-    response->message = file;
+    responseHeaders["Content-Type"] = mime_type(correct_location);
+    responseBuilder->setCode(200);
+    responseBuilder->setCodeMessage("OK");
+    responseHeaders["Content-Length:"] = file.size();
+    responseBuilder->setBody(file);
   }
 }
 
@@ -56,11 +60,11 @@ void ss::methods::Get::create_correct_location() {
   const auto host = request.headers.at("Host");
 
   std::string req_location;
-  if (request.headers.at("location").back() == '/') {
+  if (request.location.back() == '/') {
     // Using Makefile just for testing purposes
-    req_location = request.headers.at("location").substr(1) + "Makefile";
+    req_location = request.location.substr(1) + "Makefile";
   } else {
-    req_location = request.headers.at("location").substr(1);
+    req_location = request.location.substr(1);
   }
 
   // Check if Host header contains a port.

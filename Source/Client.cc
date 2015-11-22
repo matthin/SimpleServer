@@ -1,40 +1,36 @@
 #include "Client.hh"
 
+#include <rokunet/Http/Request.h>
+#include <rokunet/Http/Response.h>
 #include <string>
-#include "Socket.hh"
-#include "http/Response.hh"
-#include "http/Request.hh"
+#include <sstream>
 #include "methods/Get.hh"
 #include "Config.hh"
 
-ss::Client::Client(Socket *socket) : socket(socket) {
+ss::Client::Client(rokunet::Socket *socket) : socket(socket) {
   auto request = get_request();
-  http::Response response;
-  response.headers["protocol"] = "HTTP/1.1";
+  rokunet::Http::Response::Builder responseBuilder;
 
-  if (request.headers["method"] == "GET") {
-    methods::Get(request, &response);
+  switch (request.method) {
+  case rokunet::Http::Request::Method::Get:
+    methods::Get(request, &responseBuilder);
+    break;
+  default:
+    break;
   }
 
-  send_response(response);
+  socket->send(responseBuilder.build().prepare());
 }
 
-ss::http::Request ss::Client::get_request() {
-  std::string response;
+rokunet::Http::Request ss::Client::get_request() {
+  std::ostringstream response;
 
-  char buffer[1024];
-  int received = sizeof(buffer);
-  // An endless wait may happen if the last response is the same size as buffer.
-  while (received == sizeof(buffer)) {
-    socket->receive(&buffer, sizeof(buffer), &received);
-    response.append(buffer, received);
+  for (int i = 1; i < 11; ++i) {
+    response << socket->receive(1024);
+    if (response.str().size() / i != 1024) {
+      break;
+    }
   }
 
-  return http::Request(response);
-}
-
-void ss::Client::send_response(const http::Response &response) {
-  const auto response_string = response.as_string();
-  socket->send(response_string.data(), response_string.size());
-  socket->disconnect();
+  return rokunet::Http::Request::Factory(response.str()).build();
 }

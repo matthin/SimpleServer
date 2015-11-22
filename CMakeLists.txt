@@ -1,8 +1,10 @@
 cmake_minimum_required (VERSION 2.6)
 project (SimpleServer)
 
+add_subdirectory(opt/rokunet)
+include_directories(opt/rokunet/Include)
+
 add_subdirectory(Source)
-add_subdirectory(Source/http)
 add_subdirectory(Source/methods)
 include_directories(Source)
 
@@ -10,6 +12,11 @@ add_library(
   SimpleServer
   STATIC
   ${SimpleServerSource}
+)
+
+target_link_libraries(
+  SimpleServer
+  rokunet
 )
 
 ADD_DEFINITIONS(-std=c++11)

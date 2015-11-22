@@ -1,19 +1,17 @@
 #pragma once
 
-#include "Socket.hh"
-#include "http/Request.hh"
-#include "http/Response.hh"
-
+#include <rokunet/Socket.h>
+#include <rokunet/Http/Request.h>
+#include <rokunet/Http/Response.h>
 #include <memory>
 
 namespace ss {
 class Client {
 public:
-  Client(Socket *socket);
-  http::Request get_request();
-  void send_response(const http::Response &response);
+  Client(rokunet::Socket *socket);
+  rokunet::Http::Request get_request();
 
 private:
-  std::unique_ptr<Socket> socket;
+  std::unique_ptr<rokunet::Socket> socket;
 };
 }

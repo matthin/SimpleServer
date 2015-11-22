@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Socket.hh"
-#include "Listener.hh"
 #include "Client.hh"
+#include <rokunet/Socket.h>
+#include <rokunet/Listener.h>
 #include <thread>
 #include <vector>
 #include <memory>
@@ -14,7 +14,7 @@ public:
   Server(unsigned short port);
 
 private:
-  Socket socket;
-  Listener listener;
+  rokunet::Socket socket;
+  rokunet::Listener listener;
 };
 }

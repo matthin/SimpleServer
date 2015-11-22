@@ -16,6 +16,8 @@ flags = [
     '.',
     '-I',
     'Source',
+    '-I',
+    'opt/rokunet/Include'
 ]
 
 SOURCE_EXTENSIONS = ['.cpp', '.cc', '.c']
